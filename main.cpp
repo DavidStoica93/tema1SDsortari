@@ -7,6 +7,7 @@
 #include <time.h>
 #include <ctime>
 #include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -160,15 +161,6 @@ int Test_Sort(long int v[], long int n)
 }
 
 
-/// Copierea unui vector in al vector
-void Copie_Vector(long int v[], long int n, long int w[])
-{
-    long int i;
-    for(i=0;i<n;i++)
-        w[i]=v[i];
-}
-
-
 int main()
 {
 
@@ -178,58 +170,26 @@ int main()
     fin>>n;
     long int nmax;
     fin>>nmax;
-    long int v[n], i, w[n];
+    long int v[n], i;
+
     for(i=0;i<n;i++)
     {
         v[i]=rand()%nmax;
     }
 
-    clock_t startTime, endTime;
+    auto begin = std::chrono::high_resolution_clock::now();
 
-    /// Radix Sort - not working
-    Copie_Vector(v,n,w);
-    startTime=time(nullptr);
-    Radix_Sort(w,n);
-    endTime=time(nullptr);
-    cout<<"Radix Sort:"<<" "<<endTime-startTime<<'\n';
-    cout<<"Verificare Sortare: "<<Test_Sort(w,n);
-    cout<<'\n'<<'\n';
-
-    /// Merge Sort
-    Copie_Vector(v,n,w);
-    startTime=time(nullptr);
-    Merge_Sort(w,0,n-1);
-    endTime=time(nullptr);
-    cout<<"Merge Sort:"<<" "<<endTime-startTime<<'\n';
-    cout<<"Verificare Sortare: "<<Test_Sort(w,n);
-    cout<<'\n'<<'\n';
-
-    /// Shell Sort
-    Copie_Vector(v,n,w);
-    startTime=time(nullptr);
-    Shell_Sort(w,n);
-    endTime=time(nullptr);
-    cout<<"Shell Sort:"<<" "<<endTime-startTime<<'\n';
-    cout<<"Verificare Sortare: "<<Test_Sort(w,n);
-    cout<<'\n'<<'\n';
-
-    /// Quick Sort
-    Copie_Vector(v,n,w);
-    startTime=time(nullptr);
-    Quick_Sort(w,0,n-1);
-    endTime=time(nullptr);
-    cout<<"Quick Sort:"<<" "<<endTime-startTime<<'\n';
-    cout<<"Verificare Sortare: "<<Test_Sort(w,n);
-    cout<<'\n'<<'\n';
-
-    /// Bubble Sort
-    Copie_Vector(v,n,w);
-    startTime=time(nullptr);
+//    Radix_Sort(w,n);
+//    Merge_Sort(w,0,n-1);
+//    Shell_Sort(w,n);
+//    Quick_Sort(w,0,n-1);
     Bubble_Sort(w,n);
-    endTime=time(nullptr);
-    cout<<"Bubble Sort:"<<" "<<endTime-startTime<<'\n';
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+
+    cout<<"Timp de Sortare:"<<elapsed.count() * 1e-9<<'\n';
     cout<<"Verificare Sortare: "<<Test_Sort(w,n);
-    cout<<'\n'<<'\n';
 
     fin.close();
 
